@@ -70,7 +70,25 @@ public class CentralPacientes {
      *            pac!=null y no existe un paciente con código igual a pac.codigo
      */
     public void agregarPacienteAlComienzo(Paciente pac) {
-        // TODO: Realiar el método que agrega al principio
+        if(pac != null)
+        {
+            boolean existePaciente = ExistePaciente(pac);
+
+            if(!existePaciente){
+                pacientes.add(0, pac);
+            }
+        }
+    }
+
+    private boolean ExistePaciente(Paciente pac) {
+        boolean existePaciente = false;
+        for (int i = 0; i < pacientes.size(); i++) {
+            if(pacientes.get(i).darCodigo() == pac.darCodigo()){
+                existePaciente = true;
+                break;
+            }
+        }
+        return existePaciente;
     }
 
     /**
@@ -80,21 +98,52 @@ public class CentralPacientes {
      *            pac!=null y no existe un paciente con código igual a pac.codigo
      */
     public void agregarPacienteAlFinal(Paciente pac) {
-        // TODO: Agragar un paciente al final de la lista
+        if(pac != null)
+        {
+            boolean existePaciente = ExistePaciente(pac);
+
+            if(!existePaciente){
+                pacientes.add(pacientes.size(), pac);
+            }
+        }
     }
 
     /**
      * Adiciona un paciente a la lista de pacientes antes del paciente con el código especificado. <br>
      */
     public void agregarPacienteAntesDe(int cod, Paciente pac) throws NoExisteException {
-        // TODO: Agrega un paciente después del paciente con el código dado
+        int indice = ObtenerIndicePorCodigo(cod);
+
+        if(indice == -1){
+            throw new NoExisteException(cod);
+        }
+
+        pacientes.add(indice, pac);
+    }
+
+    private int ObtenerIndicePorCodigo(int cod) {
+        for (int i = 0; i < pacientes.size(); i++) {
+            Paciente pacienteActual = pacientes.get(i);
+            if (pacienteActual !=null && pacienteActual.darCodigo() == cod) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
      * Adiciona un paciente a la lista de pacientes después del paciente con el código especificado.
      */
     public void agregarPacienteDespuesDe(int cod, Paciente pac) throws NoExisteException {
-        // TODO: Agrega un paciente después del paciente con el código cod
+        int indice = ObtenerIndicePorCodigo(cod);
+
+        if(indice == -1){
+            throw new NoExisteException(cod);
+        }
+
+        int nuevoIndice = indice + 1;
+
+        pacientes.add(nuevoIndice, pac);
     }
 
     /**
@@ -108,7 +157,13 @@ public class CentralPacientes {
      * Elimina el paciente con el código especificado.
      */
     public void eliminarPaciente(int cod) throws NoExisteException {
-        // TODO: Si no existe el paciente con el código dado, genera la excepción
+        int indice = ObtenerIndicePorCodigo(cod);
+
+        if(indice == -1){
+            throw new NoExisteException(cod);
+        }
+
+        pacientes.remove(indice);
     }
 
     /**
@@ -140,14 +195,26 @@ public class CentralPacientes {
      * Retorna la cantidad de hombres que hay en la lista
      */
     public int cantHombres() {
-        return 0;
+        int cantidadHombres = 0;
+        for (int i = 0; i < pacientes.size(); i++) {
+            if(pacientes.get(i).darSexo() == 1){
+                cantidadHombres++;
+            }
+        }
+        return cantidadHombres;
     }
 
     /**
      * Retorna la cantidad de mujeres que hay en la lista
      */
     public int cantMujeres() {
-        return 0;
+        int cantidadMujeres = 0;
+        for (int i = 0; i < pacientes.size(); i++) {
+            if(pacientes.get(i).darSexo() == 2){
+                cantidadMujeres++;
+            }
+        }
+        return cantidadMujeres;
     }
 
     /**
