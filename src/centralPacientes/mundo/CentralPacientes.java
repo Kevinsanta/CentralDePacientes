@@ -224,7 +224,25 @@ public class CentralPacientes {
      * @return nombre de la clínica
      */
     public String metodo4() {
-        return "Respuesta 4";
+        String clinicaMasOcupada = "";
+        int mayorNumerodePacientes = 0;
+        for (int c = 0; c < listaClinicas.size(); c++) {
+            String nombreClinica = listaClinicas.get(c);
+            int numeroPacientes = 0;
+            
+            for (int p = 0; p < pacientes.size(); p++) {
+                if(pacientes.get(p).darClinica().equals(nombreClinica)){
+                    numeroPacientes++;
+                }
+            }
+
+            if(numeroPacientes > mayorNumerodePacientes){
+                mayorNumerodePacientes = numeroPacientes;
+                clinicaMasOcupada = nombreClinica;
+            }
+
+        }
+        return clinicaMasOcupada;
     }
 
 
